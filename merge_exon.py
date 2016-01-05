@@ -50,6 +50,8 @@ for gene, lines in gene_annotation.items():
             l = "\t".join(fields)
             fh_out.write( "%s\n" % l )
 
+    os.unlink(temp_file.name)
+
 
 
 fh_out.close()

@@ -35,6 +35,7 @@ with open(sys.argv[1]) as f:
 
 
 
+
 pbar = ProgressBar(widgets=[Percentage(), Bar(marker=RotatingMarker()), ETA()], maxval= len(gene_annotation.keys())).start()
 
 i = 0
@@ -47,6 +48,9 @@ for gene, lines in gene_annotation.items():
     proc = subprocess.Popen(['bedtools','merge', '-s' ,'-i',temp_file.name],stdout=subprocess.PIPE, stderr= subprocess.PIPE)
     std_out , std_err =  proc.communicate()
 
+    if std_err:
+        raise ValueError('error in bed line')
+
 
     lines = std_out.decode(encoding).split('\n')
 
@@ -58,7 +62,6 @@ for gene, lines in gene_annotation.items():
             l = "\t".join(fields)
             fh_out.write( "%s\n" % l )
 
-    os.unlink(temp_file.name)
     pbar.update(i + 1)
 
 

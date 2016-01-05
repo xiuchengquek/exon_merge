@@ -9,7 +9,7 @@ import re
 import subprocess
 import locale
 
-from progressbar import ProgressBar , Percentage, Bar
+from progressbar import ProgressBar , Percentage, Bar, RotatingMarker, ETA
 
 from tempfile import NamedTemporaryFile
 
@@ -35,7 +35,7 @@ with open(sys.argv[1]) as f:
 
 
 
-pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval= len(gene_annotation.keys())).start()
+pbar = ProgressBar(widgets=[Percentage(), Bar(marker=RotatingMarker()), ETA()], maxval= len(gene_annotation.keys())).start()
 
 i = 0
 

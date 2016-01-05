@@ -7,6 +7,7 @@ __author__ = 'xiuchengquek'
 import sys
 import re
 import subprocess
+import locale
 
 from tempfile import NamedTemporaryFile
 
@@ -18,6 +19,9 @@ gene_name_re = re.compile('gene_name \"([^\"]+)\"')
 gene_annotation = defaultdict(list)
 
 fh_out = open(sys.argv[2], 'w+')
+
+
+encoding = locale.getdefaultlocale()[1]
 
 with open(sys.argv[1]) as f:
     for line in f:
@@ -36,7 +40,7 @@ for gene, lines in gene_annotation.items():
     std_out , std_err =  proc.communicate()
 
 
-    lines = std_out.split('\n')
+    lines = std_out.decode(encoding).split('\n')
 
     for l in lines:
         if len(l) != 0:

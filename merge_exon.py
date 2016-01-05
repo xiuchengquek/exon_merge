@@ -9,6 +9,8 @@ import re
 import subprocess
 import locale
 
+from progressbar import ProgressBar , Percentage, Bar
+
 from tempfile import NamedTemporaryFile
 
 from collections import defaultdict
@@ -32,6 +34,12 @@ with open(sys.argv[1]) as f:
 
 
 
+
+pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval= len(gene_annotation.keys())).start()
+
+i = 0
+
+
 for gene, lines in gene_annotation.items():
     temp_file = NamedTemporaryFile(mode='w', delete=False)
     temp_file.write("".join(lines))
@@ -51,11 +59,12 @@ for gene, lines in gene_annotation.items():
             fh_out.write( "%s\n" % l )
 
     os.unlink(temp_file.name)
+    pbar.update(i + 1)
 
 
 
 fh_out.close()
-
+pbar.finish()
 
 
 

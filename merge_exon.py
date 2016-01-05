@@ -48,6 +48,9 @@ for gene, lines in gene_annotation.items():
     proc = subprocess.Popen(['bedtools','merge', '-s' ,'-i',temp_file.name],stdout=subprocess.PIPE, stderr= subprocess.PIPE)
     std_out , std_err =  proc.communicate()
 
+
+
+
     if std_err:
         raise ValueError('error in bed line')
 
@@ -61,8 +64,9 @@ for gene, lines in gene_annotation.items():
             fields.insert(-1, '0')
             l = "\t".join(fields)
             fh_out.write( "%s\n" % l )
+    i = i + 1
+    pbar.update(i)
 
-    pbar.update(i + 1)
 
 
 
